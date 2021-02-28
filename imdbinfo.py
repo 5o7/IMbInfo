@@ -4,6 +4,8 @@ import requests
 import praw
 import time
 
+# Two variables--one to hold website credentials and another to hold website access
+
 creds = {"client_id": "xxxxxxxxxxxxxxxxx",
          "client_secret": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
          "password": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -16,11 +18,15 @@ reddit = praw.Reddit(client_id=creds["client_id"],
                      user_agent=creds["user_agent"],
                      username=creds["username"])
 
+# Make a variable to keep track of comments made
+
 replies = 0
+
+# Make a list called submissions to store the top 3 new submissions from movie group
 
 while True:
 
-    # Get the top 5 new submissions from various movie groups.
+    # Get the top 5 new submissions from various movie groups
 
     subreddits = []
     subreddits.append("xxxxxxxxxx")
@@ -38,11 +44,11 @@ while True:
 
     for submission in submissions:
 
-        # Reset the variables.
+        # Reset the variables
 
         query = title = genre = summary = director = stars = popularity = age_rating = link = " "
 
-        # Change the submission title into a query.
+        # Change the submission title into a query
 
         query = submission.title
         query = query.split(")")
@@ -50,7 +56,7 @@ while True:
         if "&" in submission.title:
             query = submission.title.replace("&", "")
 
-        # Search google and refine results to get the imdb url.
+        # Search google and refine results to get the imdb url
 
         search_results = search(query, 5, 'en')
         for search_result in search_results:
@@ -164,38 +170,19 @@ while True:
 
             entry = title + genre + summary + director + stars + popularity + age_rating + link
 
-            # Make a comment if it has't commented yet.
+            # Make a comment if it has't commented yet
 
             task_complete = False
             for comment in submission.comments:
                 if comment.author == "IMDbInfo":
                     task_complete = True
                     break
-
+                  
+            # Just take a two second break
+         
             time.sleep(2)
-
-            for comment in submission.comments:
-                if comment.author == "imdbinfo":
-                    task_complete = True
-                    break
-
-            time.sleep(2)
-
-            for i in range(0, 3):
-                task_complete = False
-            for comment in submission.comments:
-                if comment.author == "IMDbInfo":
-                    task_complete = True
-                    break
-
-            time.sleep(2)
-
-            for comment in submission.comments:
-                if comment.author == "imdbinfo":
-                    task_complete = True
-                    break
-
-            time.sleep(2)
+                  
+            # Submit a reply to the submission and print the reply in the output
 
             if not task_complete:
                 submission.reply(entry)
@@ -204,6 +191,7 @@ while True:
                 time.sleep(3)
                 print(entry)
                 print()
+                  
         except:
             print("")
 
