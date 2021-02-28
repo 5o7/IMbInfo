@@ -22,11 +22,11 @@ reddit = praw.Reddit(client_id=creds["client_id"],
 
 replies = 0
 
-# Make a list called submissions to store the top 3 new submissions from movie group
+# Make a loop to run a block of code every 15 minutes
 
 while True:
 
-    # Get the top 5 new submissions from various movie groups
+    # Make a list called submissions to store the top 3 new submissions from movie group
 
     subreddits = []
     subreddits.append("xxxxxxxxxx")
